@@ -17,7 +17,7 @@ def load_data():
             ['Samantha'] * 17 +       # 20 sesiones para Miriam
             ['Miriam'] * 30        # 30 sesiones para Maribel
         ),
-        'paciente': [f'P{i+1}' for i in range(67)],  # Generar 67 pacientes únicos
+        'paciente': [f'P{i+1}' for i in range(30)] * 2 + [f'P{i+1}' for i in range(30)][:7],
         'descripcion': (
             ['ansiedad estrés', 'violencia familiar', 'depresión', 'ansiedad', 'problemas laborales'] * 13 +  # Repetir patrones
             ['problemas familiares', 'estrés constante', 'conflicto con pareja', 'problemas emocionales', 'ansiedad social', 'falta de apoyo'] * 11 +
