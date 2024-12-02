@@ -13,8 +13,8 @@ st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wid
 def load_data():
     # Reemplaza este código con la carga de tus datos reales
     data = pd.DataFrame({
-        'psicologa': ['Ana', 'Luis', 'Maria'],
-        'paciente': ['P1', 'P2', 'P3', 'P4', 'P5','P6','P7'],
+        'psicologa': ['Ana', 'Luis', 'Maria', 'p','a','a'],
+        'paciente': ['P1', 'P2', 'P3', 'P4', 'P5','P6'],
         'descripcion': [
             'ansiedad estrés', 'violencia familiar', 'depresión',
             'ansiedad', 'estrés laboral'
