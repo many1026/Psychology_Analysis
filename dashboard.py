@@ -14,7 +14,7 @@ st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wid
 def load_data():
     # Asegúrate de que todas las columnas tienen la misma longitud y solo incluyan las tres psicólogas indicadas
     data = pd.DataFrame({
-        'psicologa': ['Carmen María', 'Miriam', 'Maribel', 'Carmen María', 'Miriam', 'Maribel'],
+        'psicóloga': ['Carmen María', 'Miriam', 'Maribel', 'Carmen María', 'Miriam', 'Maribel'],
         'paciente': ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'],
         'descripcion': [
             'ansiedad estrés', 'violencia familiar', 'depresión',
@@ -42,7 +42,7 @@ st.header("Resumen General")
 col1, col2, col3 = st.columns(3)
 col1.metric("Total de Sesiones", len(data))
 col2.metric("Pacientes Únicos", data['paciente'].nunique())
-col3.metric("Psicólogas Activas", data['psicologa'].nunique())
+col3.metric("Psicólogas Activas", data['psicóloga'].nunique())
 
 # Sección 2: Word Cloud
 st.header("Análisis de Texto: Nube de Palabras")
