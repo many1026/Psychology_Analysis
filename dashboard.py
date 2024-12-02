@@ -13,8 +13,8 @@ def load_data():
     # Generar datos para cada psicóloga
     data = pd.DataFrame({
         'psicologa': (
-            ['Carmen María'] * 17 +  # 17 sesiones para Carmen María
-            ['Samantha'] * 20 +       # 20 sesiones para Miriam
+            ['Carmen María'] * 20 +  # 17 sesiones para Carmen María
+            ['Samantha'] * 17 +       # 20 sesiones para Miriam
             ['Miriam'] * 30        # 30 sesiones para Maribel
         ),
         'paciente': [f'P{i+1}' for i in range(67)],  # Generar 67 pacientes únicos
