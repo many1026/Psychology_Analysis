@@ -10,14 +10,14 @@ st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wid
 
 @st.cache_data
 def load_data():
-    # Generar datos para cada psicóloga
+    # Todas las columnas deben tener exactamente 28 elementos
     data = pd.DataFrame({
         'psicologa': (
             ['Carmen María'] * 5 +  # 5 sesiones para Carmen María
             ['Miriam'] * 6 +       # 6 sesiones para Miriam
             ['Maribel'] * 17       # 17 sesiones para Maribel
         ),
-        'paciente': [f'P{i+1}' for i in range(28)],  # Generar 28 pacientes únicos
+        'paciente': [f'P{i+1}' for i in range(28)],  # 28 pacientes únicos
         'descripcion': (
             ['ansiedad estrés', 'violencia familiar', 'depresión', 'ansiedad', 'problemas laborales'] +
             ['problemas familiares', 'estrés constante', 'conflicto con pareja', 'problemas emocionales', 'ansiedad social', 'falta de apoyo'] +
@@ -34,9 +34,10 @@ def load_data():
              'Requiere apoyo adicional', 'Estancamiento visible', 'Trabajo terapéutico necesario', 'Progreso lento',
              'Intervención necesaria', 'Estado estable']
         ),
-        'fecha': pd.date_range('2024-01-01', periods=28, freq='D')  # Ajustado para 28 sesiones
+        'fecha': pd.date_range('2024-01-01', periods=28, freq='D')  # 28 fechas consecutivas
     })
     return data
+
 
 
 # Datos
