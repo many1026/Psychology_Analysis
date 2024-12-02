@@ -98,8 +98,10 @@ heatmap_data = sentimientos_heatmap_data.pivot_table(index='Psicóloga', columns
 
 # Convertir sentimientos a datos numéricos
 sentimiento_map = {'Negativo': -1, 'Neutro': 0, 'Positivo': 1}
-heatmap_data_numeric = heatmap_data.replace(sentimiento_map).fillna(0)  # Reemplazar y llenar valores nulos con 0
-heatmap_data_numeric = heatmap_data_numeric.astype(float)  # Asegurar que los datos sean numéricos
+heatmap_data_numeric = heatmap_data.replace(sentimiento_map)
+
+# Reemplazar valores no válidos y asegurar conversiones numéricas
+heatmap_data_numeric = heatmap_data_numeric.apply(pd.to_numeric, errors='coerce').fillna(0)
 
 # Crear el heatmap
 fig, ax = plt.subplots(figsize=(12, 6))
