@@ -50,13 +50,6 @@ st.header("Análisis de Texto: Nube de Palabras")
 # Mostrar la imagen estática en lugar de generar la nube de palabras dinámicamente
 st.image("nube_de_palabras.png", caption="Nube de Palabras Generada", use_column_width=True)
 
-# Sección: Número de Sesiones por Psicóloga
-st.header("Número de Sesiones por Psicóloga")
-sesiones_por_psicologa = data['psicologa'].value_counts()
-
-# Mostrar como tabla
-st.table(sesiones_por_psicologa)
-
 # Sección 3: Temas Más Frecuentes
 st.header("Temas Más Frecuentes en las Sesiones")
 temas = ["Violencia intrafamiliar", "Problemas de comunicación", "Impacto en hijos/as", "Relaciones conflictivas"]
