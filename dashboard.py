@@ -20,7 +20,7 @@ def load_data():
             'ansiedad', 'estrés laboral'
         ],
         'observacion': ['Progreso estable', 'Casos graves', 'Mejorando', 'Urgente', 'Moderado'],
-        'fecha': pd.date_range('2024-01-01', periods=5, freq='D')
+        'fecha': pd.date_range('2024-01-01', periods=6, freq='D')
     })
     return data
 
