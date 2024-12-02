@@ -41,7 +41,7 @@ col3.metric("Psicólogas Activas", data['psicologa'].nunique())
 # Sección 2: Word Cloud
 st.header("Análisis de Texto: Nube de Palabras")
 # Mostrar la imagen estática en lugar de generar la nube de palabras dinámicamente
-st.image("wordcloud_actual.png", caption="Nube de Palabras Generada", use_column_width=True)
+st.image("nube_de_palabras.png", caption="Nube de Palabras Generada", use_column_width=True)
 
 
 # Sección 3: Temas Más Frecuentes
