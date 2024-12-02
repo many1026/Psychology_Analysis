@@ -45,6 +45,21 @@ data = load_data()
 st.title("Dashboard de Sesiones Psicológicas")
 st.markdown("**Optimización del impacto del programa para Mujer Violeta**")
 
+# Sección: Número de Sesiones por Psicóloga
+st.header("Número de Sesiones por Psicóloga")
+sesiones_por_psicologa = data['psicologa'].value_counts()
+
+# Mostrar como tabla
+st.table(sesiones_por_psicologa)
+
+# O como gráfica de barras
+fig, ax = plt.subplots()
+sesiones_por_psicologa.plot(kind='bar', color='skyblue', ax=ax)
+ax.set_title("Número de Sesiones por Psicóloga")
+ax.set_xlabel("Psicóloga")
+ax.set_ylabel("Número de Sesiones")
+st.pyplot(fig)
+
 # Sección 1: Resumen general
 st.header("Resumen General")
 col1, col2, col3 = st.columns(3)
