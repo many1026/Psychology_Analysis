@@ -14,7 +14,7 @@ st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wid
 def load_data():
     # Asegúrate de que todas las columnas tienen la misma longitud y solo incluyan las tres psicólogas indicadas
     data = pd.DataFrame({
-        'psicologa': ['Carmen María', 'Miriam', 'Maribel', 'Carmen María', 'Miriam', 'Maribel'],
+        'psicologa': ['Carmen María', 'Miriam', 'Samantha', 'Carmen María', 'Miriam', 'Samantha'],
         'paciente': ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'],
         'descripcion': [
             'ansiedad estrés', 'violencia familiar', 'depresión',
