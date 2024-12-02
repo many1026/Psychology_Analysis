@@ -11,18 +11,22 @@ st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wid
 # Carga de datos procesados
 @st.cache_data
 def load_data():
-    # Reemplaza este código con la carga de tus datos reales
+    # Asegúrate de que todas las columnas tienen la misma longitud
     data = pd.DataFrame({
-        'psicologa': ['Ana', 'Luis', 'Maria', 'p','a','a'],
-        'paciente': ['P1', 'P2', 'P3', 'P4', 'P5','P6'],
+        'psicologa': ['Ana', 'Luis', 'Maria', 'p', 'a', 'a'],
+        'paciente': ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'],
         'descripcion': [
             'ansiedad estrés', 'violencia familiar', 'depresión',
-            'ansiedad', 'estrés laboral'
+            'ansiedad', 'estrés laboral', 'problemas familiares'
         ],
-        'observacion': ['Progreso estable', 'Casos graves', 'Mejorando', 'Urgente', 'Moderado'],
-        'fecha': pd.date_range('2024-01-01', periods=6, freq='D')
+        'observacion': [
+            'Progreso estable', 'Casos graves', 'Mejorando',
+            'Urgente', 'Moderado', 'En progreso'
+        ],
+        'fecha': pd.date_range('2024-01-01', periods=6, freq='D')  # Ajustado a 6 filas
     })
     return data
+
 
 # Datos
 data = load_data()
