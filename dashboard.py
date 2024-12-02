@@ -13,8 +13,8 @@ st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wid
 def load_data():
     # Reemplaza este código con la carga de tus datos reales
     data = pd.DataFrame({
-        'psicologa': ['Ana', 'Luis', 'Maria', 'Ana', 'Luis'],
-        'paciente': ['P1', 'P2', 'P3', 'P4', 'P5'],
+        'psicologa': ['Ana', 'Luis', 'Maria'],
+        'paciente': ['P1', 'P2', 'P3', 'P4', 'P5','p6','P7'],
         'descripcion': [
             'ansiedad estrés', 'violencia familiar', 'depresión',
             'ansiedad', 'estrés laboral'
@@ -29,7 +29,7 @@ data = load_data()
 
 # Título
 st.title("Dashboard de Sesiones Psicológicas")
-st.markdown("**Optimización del impacto del programa para la ONG**")
+st.markdown("**Optimización del impacto del programa para Mujer Violeta**")
 
 # Sección 1: Resumen general
 st.header("Resumen General")
