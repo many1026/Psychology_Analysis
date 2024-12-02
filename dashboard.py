@@ -40,13 +40,8 @@ col3.metric("Psicólogas Activas", data['psicologa'].nunique())
 
 # Sección 2: Word Cloud
 st.header("Análisis de Texto: Nube de Palabras")
-# Concatenar textos de 'descripcion' y 'observacion'
-word_text = " ".join(data['descripcion']) + " " + " ".join(data['observacion'])
-wordcloud = WordCloud(width=800, height=400, background_color="white").generate(word_text)
-fig, ax = plt.subplots()
-ax.imshow(wordcloud, interpolation='bilinear')
-ax.axis("off")
-st.pyplot(fig)
+# Mostrar la imagen estática en lugar de generar la nube de palabras dinámicamente
+st.image("wordcloud_actual.png", caption="Nube de Palabras Generada", use_column_width=True)
 
 
 # Sección 3: Temas Más Frecuentes
