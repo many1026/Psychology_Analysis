@@ -82,7 +82,6 @@ st.plotly_chart(fig, use_container_width=True)
 
 # Sección 5: Insights Accionables
 st.header("Insights Accionables")
-st.markdown("Aquí puedes agregar análisis adicionales, como clasificación de temas o detección de sentimientos.")
 
 # Sección 6: Análisis de Sentimientos
 st.header("Distribución de Sentimientos")
@@ -110,12 +109,3 @@ plt.ylabel("Sentimiento (Escala)")
 plt.grid(True)
 plt.savefig("progreso_p005.png")  # Guardar el gráfico
 st.image("progreso_p005.png", caption="Progreso del Paciente P005")  # Mostrarlo
-
-st.markdown("""
-### Análisis de Temas Más Frecuentes
-Este análisis muestra que los principales temas abordados en las sesiones son:
-1. **Violencia intrafamiliar** (30% de las sesiones).
-2. **Problemas de comunicación** (25%).
-3. **Impacto en hijos/as** (20%).
-4. **Relaciones conflictivas** (15%).
-""")
