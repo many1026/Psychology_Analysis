@@ -45,20 +45,6 @@ data = load_data()
 st.title("Dashboard de Sesiones Psicológicas")
 st.markdown("**Optimización del impacto del programa para Mujer Violeta**")
 
-# Sección: Número de Sesiones por Psicóloga
-st.header("Número de Sesiones por Psicóloga")
-sesiones_por_psicologa = data['psicologa'].value_counts()
-
-# Mostrar como tabla
-st.table(sesiones_por_psicologa)
-
-# O como gráfica de barras
-fig, ax = plt.subplots()
-sesiones_por_psicologa.plot(kind='bar', color='skyblue', ax=ax)
-ax.set_title("Número de Sesiones por Psicóloga")
-ax.set_xlabel("Psicóloga")
-ax.set_ylabel("Número de Sesiones")
-st.pyplot(fig)
 
 # Sección 1: Resumen general
 st.header("Resumen General")
@@ -72,6 +58,12 @@ st.header("Análisis de Texto: Nube de Palabras")
 # Mostrar la imagen estática en lugar de generar la nube de palabras dinámicamente
 st.image("nube_de_palabras.png", caption="Nube de Palabras Generada", use_column_width=True)
 
+# Sección: Número de Sesiones por Psicóloga
+st.header("Número de Sesiones por Psicóloga")
+sesiones_por_psicologa = data['psicologa'].value_counts()
+
+# Mostrar como tabla
+st.table(sesiones_por_psicologa)
 
 # Sección 3: Temas Más Frecuentes
 st.header("Temas Más Frecuentes en las Sesiones")
