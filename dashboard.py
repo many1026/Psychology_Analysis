@@ -9,11 +9,12 @@ import plotly.express as px
 st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wide")
 
 # Carga de datos procesados
+# Carga de datos procesados
 @st.cache_data
 def load_data():
-    # Asegúrate de que todas las columnas tienen la misma longitud
+    # Asegúrate de que todas las columnas tienen la misma longitud y solo incluyan las tres psicólogas indicadas
     data = pd.DataFrame({
-        'psicologa': ['Ana', 'Luis', 'Maria', 'p', 'a', 'a'],
+        'psicologa': ['Carmen María', 'Miriam', 'Maribel', 'Carmen María', 'Miriam', 'Maribel'],
         'paciente': ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'],
         'descripcion': [
             'ansiedad estrés', 'violencia familiar', 'depresión',
@@ -26,6 +27,7 @@ def load_data():
         'fecha': pd.date_range('2024-01-01', periods=6, freq='D')  # Ajustado a 6 filas
     })
     return data
+
 
 
 # Datos
