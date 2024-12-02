@@ -8,9 +8,6 @@ import plotly.express as px
 # Configuración general
 st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wide")
 
-# Carga de datos procesados
-# Carga de datos procesados
-# Carga de datos procesados
 @st.cache_data
 def load_data():
     # Generar datos para cada psicóloga
@@ -40,9 +37,6 @@ def load_data():
         'fecha': pd.date_range('2024-01-01', periods=28, freq='D')  # Ajustado para 28 sesiones
     })
     return data
-
-
-
 
 # Datos
 data = load_data()
