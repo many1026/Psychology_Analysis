@@ -62,7 +62,3 @@ st.plotly_chart(fig, use_container_width=True)
 # Sección 5: Insights Accionables
 st.header("Insights Accionables")
 st.markdown("Aquí puedes agregar análisis adicionales, como clasificación de temas o detección de sentimientos.")
-
-
-# %%
-x
