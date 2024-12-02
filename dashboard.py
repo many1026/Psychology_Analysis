@@ -83,29 +83,58 @@ st.plotly_chart(fig, use_container_width=True)
 # Sección 5: Insights Accionables
 st.header("Insights Accionables")
 
-# Sección 6: Análisis de Sentimientos
+# Sección 6: Heatmap de Sentimientos
 st.header("Distribución de Sentimientos")
-sentimientos = ["Negativo", "Neutro", "Positivo"]
-valores = [60, 25, 15]
+
+# Generar datos simulados para el heatmap
+sentimientos_heatmap_data = pd.DataFrame({
+    'Sesión': [f'S{i+1}' for i in range(67)],
+    'Psicóloga': data['psicologa'],
+    'Sentimiento': ['Negativo'] * 25 + ['Neutro'] * 20 + ['Positivo'] * 22  # Simular sentimientos
+})
+
+# Crear un pivot table para el heatmap
+heatmap_data = sentimientos_heatmap_data.pivot_table(index='Psicóloga', columns='Sesión', values='Sentimiento', aggfunc='first', fill_value='')
+
+# Convertir a datos numéricos para el heatmap
+sentimiento_map = {'Negativo': -1, 'Neutro': 0, 'Positivo': 1}
+heatmap_data_numeric = heatmap_data.replace(sentimiento_map)
+
+# Crear el heatmap
+fig, ax = plt.subplots(figsize=(12, 6))
+im = ax.imshow(heatmap_data_numeric, cmap="RdYlGn", aspect="auto")
+
+# Configurar el heatmap
+ax.set_xticks(range(len(heatmap_data_numeric.columns)))
+ax.set_xticklabels(heatmap_data_numeric.columns, rotation=90, fontsize=8)
+ax.set_yticks(range(len(heatmap_data_numeric.index)))
+ax.set_yticklabels(heatmap_data_numeric.index, fontsize=10)
+plt.colorbar(im, ax=ax, orientation="vertical", label="Sentimientos (-1=Negativo, 0=Neutro, 1=Positivo)")
+plt.title("Heatmap de Distribución de Sentimientos por Sesión y Psicóloga", fontsize=14)
+plt.tight_layout()
+
+# Guardar el heatmap y mostrarlo
+plt.savefig("heatmap_sentimientos.png")
+st.image("heatmap_sentimientos.png", caption="Distribución de Sentimientos por Psicóloga y Sesión")
 
 # Sección 7: Progreso Individual del Paciente
-st.header("Progreso del Paciente P005")
-sesiones = [1, 2, 3, 4]
-sentimientos_p005 = [-1, -1, 0, 1]  # Escala: -1 = Negativo, 0 = Neutro, 1 = Positivo
+st.header("Progreso Gradual del Paciente P005")
 
-# Generar el gráfico de pastel
-plt.figure(figsize=(6, 6))
-plt.pie(valores, labels=sentimientos, autopct='%1.1f%%', colors=["red", "gray", "green"])
-plt.title("Distribución de Sentimientos en las Sesiones")
-plt.savefig("sentimientos.png")  # Guardar el gráfico
-st.image("sentimientos.png", caption="Distribución de Sentimientos")  # Mostrarlo
+# Datos simulados para progreso gradual
+progreso_data = pd.DataFrame({
+    'Sesión': [f'S{i+1}' for i in range(10)],  # Simular 10 sesiones
+    'Sentimiento': [-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2, 2.5]  # Progreso gradual
+})
 
-# Gráfico de línea para mostrar el progreso
-plt.figure(figsize=(8, 5))
-plt.plot(sesiones, sentimientos_p005, marker='o', linestyle='-', color='blue')
-plt.title("Progreso del Paciente P005")
-plt.xlabel("Sesiones")
-plt.ylabel("Sentimiento (Escala)")
-plt.grid(True)
-plt.savefig("progreso_p005.png")  # Guardar el gráfico
-st.image("progreso_p005.png", caption="Progreso del Paciente P005")  # Mostrarlo
+# Gráfico de progreso
+fig, ax = plt.subplots(figsize=(10, 5))
+ax.plot(progreso_data['Sesión'], progreso_data['Sentimiento'], marker='o', linestyle='-', color='green')
+ax.set_title("Progreso Gradual del Paciente P005", fontsize=14)
+ax.set_xlabel("Sesión")
+ax.set_ylabel("Nivel de Sentimiento")
+ax.axhline(0, color='gray', linestyle='--', linewidth=0.8)  # Línea base neutra
+ax.grid(True)
+
+# Guardar el gráfico de progreso y mostrarlo
+plt.savefig("progreso_gradual_p005.png")
+st.image("progreso_gradual_p005.png", caption="Progreso Gradual del Paciente P005")
