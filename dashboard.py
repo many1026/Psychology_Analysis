@@ -10,23 +10,37 @@ st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wid
 
 # Carga de datos procesados
 # Carga de datos procesados
+# Carga de datos procesados
 @st.cache_data
 def load_data():
-    # Asegúrate de que todas las columnas tienen la misma longitud y solo incluyan las tres psicólogas indicadas
+    # Generar datos para cada psicóloga
     data = pd.DataFrame({
-        'psicologa': ['Carmen María', 'Miriam', 'Samantha', 'Carmen María', 'Miriam', 'Samantha'],
-        'paciente': ['P1', 'P2', 'P3', 'P4', 'P5', 'P6'],
-        'descripcion': [
-            'ansiedad estrés', 'violencia familiar', 'depresión',
-            'ansiedad', 'estrés laboral', 'problemas familiares'
-        ],
-        'observacion': [
-            'Progreso estable', 'Casos graves', 'Mejorando',
-            'Urgente', 'Moderado', 'En progreso'
-        ],
-        'fecha': pd.date_range('2024-01-01', periods=6, freq='D')  # Ajustado a 6 filas
+        'psicologa': (
+            ['Carmen María'] * 5 +  # 5 sesiones para Carmen María
+            ['Miriam'] * 6 +       # 6 sesiones para Miriam
+            ['Maribel'] * 17       # 17 sesiones para Maribel
+        ),
+        'paciente': [f'P{i+1}' for i in range(28)],  # Generar pacientes únicos
+        'descripcion': (
+            ['ansiedad estrés', 'violencia familiar', 'depresión', 'ansiedad', 'problemas laborales'] +
+            ['problemas familiares', 'estrés constante', 'conflicto con pareja', 'problemas emocionales', 'ansiedad social', 'falta de apoyo'] +
+            ['estrés laboral', 'conflictos familiares', 'violencia verbal', 'proceso de divorcio', 'problemas emocionales',
+             'ansiedad', 'progresos lentos', 'dificultades sociales', 'tensión constante', 'falta de autoestima', 
+             'miedo recurrente', 'confianza en declive', 'traumas infantiles', 'terapia de pareja', 'carga emocional alta',
+             'depresión persistente']
+        ),
+        'observacion': (
+            ['Progreso estable', 'Casos graves', 'Mejorando', 'Urgente', 'Moderado'] +
+            ['En progreso', 'Requiere seguimiento', 'Avances lentos', 'Requiere intervención', 'Estancado', 'En mejora'] +
+            ['Progreso observado', 'Casos severos', 'Necesita intervención', 'Apoyo familiar sugerido', 'Seguimiento emocional',
+             'Avances visibles', 'Observación constante', 'Caso estable', 'Revisión periódica', 'Estado crítico', 
+             'Requiere apoyo adicional', 'Estancamiento visible', 'Trabajo terapéutico necesario', 'Progreso lento',
+             'Intervención necesaria', 'Estado estable']
+        ),
+        'fecha': pd.date_range('2024-01-01', periods=28, freq='D')  # Ajustado para 28 sesiones
     })
     return data
+
 
 
 
