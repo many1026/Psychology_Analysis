@@ -12,25 +12,26 @@ st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wid
 def load_data():
     # Generar datos para cada psicóloga
     data = pd.DataFrame({
-        'psicologa': ['Carmen María', 'Miriam', 'Maribel', 'Carmen María', 'Miriam'],
-        'paciente': ['P1', 'P2', 'P3', 'P4', 'P5'],
-        'descripcion': [
-            'ansiedad estrés', 
-            'violencia familiar', 
-            'depresión', 
-            'ansiedad', 
-            'problemas laborales'
-        ],
-        'observacion': [
-            'Progreso estable', 
-            'Casos graves', 
-            'Mejorando', 
-            'Urgente', 
-            'Moderado'
-        ],
-        'fecha': pd.date_range('2024-01-01', periods=5, freq='D')  # Ajustado para 5 sesiones
+        'psicologa': (
+            ['Carmen María'] * 17 +  # 17 sesiones para Carmen María
+            ['Miriam'] * 20 +       # 20 sesiones para Miriam
+            ['Maribel'] * 30        # 30 sesiones para Maribel
+        ),
+        'paciente': [f'P{i+1}' for i in range(67)],  # Generar 67 pacientes únicos
+        'descripcion': (
+            ['ansiedad estrés', 'violencia familiar', 'depresión', 'ansiedad', 'problemas laborales'] * 13 +  # Repetir patrones
+            ['problemas familiares', 'estrés constante', 'conflicto con pareja', 'problemas emocionales', 'ansiedad social', 'falta de apoyo'] * 11 +
+            ['estrés laboral', 'conflictos familiares', 'violencia verbal', 'proceso de divorcio', 'problemas emocionales', 'ansiedad'] * 10
+        )[:67],  # Asegurar que sean exactamente 67 descripciones
+        'observacion': (
+            ['Progreso estable', 'Casos graves', 'Mejorando', 'Urgente', 'Moderado'] * 13 +
+            ['En progreso', 'Requiere seguimiento', 'Avances lentos', 'Requiere intervención', 'Estancado'] * 11 +
+            ['Progreso observado', 'Casos severos', 'Necesita intervención', 'Apoyo familiar sugerido', 'Seguimiento emocional'] * 10
+        )[:67],  # Asegurar que sean exactamente 67 observaciones
+        'fecha': pd.date_range('2024-01-01', periods=67, freq='D')  # Generar 67 fechas consecutivas
     })
     return data
+
 data = load_data()
 
 # Título
