@@ -17,7 +17,7 @@ def load_data():
             ['Miriam'] * 6 +       # 6 sesiones para Miriam
             ['Maribel'] * 17       # 17 sesiones para Maribel
         ),
-        'paciente': [f'P{i+1}' for i in range(28)],  # Generar pacientes únicos
+        'paciente': [f'P{i+1}' for i in range(28)],  # Generar 28 pacientes únicos
         'descripcion': (
             ['ansiedad estrés', 'violencia familiar', 'depresión', 'ansiedad', 'problemas laborales'] +
             ['problemas familiares', 'estrés constante', 'conflicto con pareja', 'problemas emocionales', 'ansiedad social', 'falta de apoyo'] +
@@ -37,6 +37,7 @@ def load_data():
         'fecha': pd.date_range('2024-01-01', periods=28, freq='D')  # Ajustado para 28 sesiones
     })
     return data
+
 
 # Datos
 data = load_data()
