@@ -18,7 +18,7 @@ st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wid
 @st.cache_data
 def load_data():
     # Cargar datos desde el archivo CSV
-    data = pd.read_csv("patient data.csv")
+    data = pd.read_csv("patient.csv")
     return data
 
 data = load_data()
