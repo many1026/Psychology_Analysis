@@ -32,14 +32,14 @@ col1, col2, col3 = st.columns(3)
 col1.metric("Total de Sesiones", len(data))
 col2.metric("Pacientes Únicos", data['Nombre del Paciente'].nunique())
 col3.metric("Estados Únicos", data['Estado'].nunique())
-# Sección 2: Visualización de Clústeres Temáticos
-st.header("Visualización de Clústeres Temáticos")
-
 # Subir y mostrar la imagen de los clústeres
 st.subheader("Distribución de Clústeres Basados en Temas")
-st.image("Patient Clusters.png", caption="Clústeres de Pacientes Basados en Temas", use_column_width=True)
 
+# Asegúrate de que el archivo sea accesible y esté en el mismo directorio o especifica la ruta completa
+image_path = "Patient Clusters.jpeg"  # Cambiar a .jpeg si ese es el formato
 
+# Mostrar la imagen
+st.image(image_path, caption="Clústeres de Pacientes Basados en Temas", use_container_width=True)
 # Sección 3: Progresión de Estados por Paciente en Batches
 st.header("Progresión de Estados por Paciente")
 
@@ -65,3 +65,7 @@ batches = [pacientes_unicos[i:i+5] for i in range(0, len(pacientes_unicos), 5)]
 # Navegación entre batches
 batch_index = st.slider("Selecciona el Batch", min_value=0, max_value=len(batches)-1, step=1, format="Batch %d")
 st.subheader(f"Batch {batch_index + 1} de {len(batches)}")
+
+# Graficar el batch seleccionado
+pacientes_batch = batches[batch_index]
+graficar_progresion_por_paciente_batch(data, pacientes_batch)
