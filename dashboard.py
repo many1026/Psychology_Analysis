@@ -40,32 +40,28 @@ st.subheader("Distribución de Clústeres Basados en Temas")
 st.image("Patient Clusters.png", caption="Clústeres de Pacientes Basados en Temas", use_column_width=True)
 
 
-# Sección 3: Progresión de Estados por Paciente
+# Sección 3: Progresión de Estados por Paciente en Batches
 st.header("Progresión de Estados por Paciente")
 
-def graficar_progresion_por_paciente(df):
+def graficar_progresion_por_paciente_batch(df, pacientes):
     plt.figure(figsize=(12, 6))
-    for paciente in df['Nombre del Paciente'].unique():
+    for paciente in pacientes:
         subset = df[df['Nombre del Paciente'] == paciente]
         sesiones = subset['Número de Sesión']
         estados = subset['Estado_Numerico']
-        plt.plot(sesiones, estados, label=paciente, alpha=0.5)
+        plt.plot(sesiones, estados, label=paciente, alpha=0.7, marker='o')
 
-    plt.title('Progresión de Estados por Paciente', fontsize=16)
+    plt.title('Progresión de Estados por Paciente (Batch)', fontsize=16)
     plt.xlabel('Número de Sesión', fontsize=14)
     plt.ylabel('Estado (0=Crítico/Urgente, 1=Seguimiento Intensivo, 2=Requiere Seguimiento, 3=Estable, 4=Resuelto)', fontsize=12)
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=8)
     plt.grid(True)
     st.pyplot(plt)
 
-graficar_progresion_por_paciente(data)
+# Dividir los pacientes en batches de 5
+pacientes_unicos = data['Nombre del Paciente'].unique()
+batches = [pacientes_unicos[i:i+5] for i in range(0, len(pacientes_unicos), 5)]
 
-# Sección 4: Word Cloud
-st.header("Nube de Palabras")
-all_text = " ".join(data['Resumen'])
-wordcloud = WordCloud(width=800, height=400, background_color='white').generate(all_text)
-plt.figure(figsize=(10, 5))
-plt.imshow(wordcloud, interpolation='bilinear')
-plt.axis('off')
-plt.title("Nube de Palabras de Resúmenes", fontsize=16)
-st.pyplot(plt)
+# Navegación entre batches
+batch_index = st.slider("Selecciona el Batch", min_value=0, max_value=len(batches)-1, step=1, format="Batch %d")
+st.subheader(f"Batch {batch_index + 1} de {len(batches)}")
