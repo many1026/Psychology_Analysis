@@ -36,42 +36,41 @@ col3.metric("Estados Únicos", data['Estado'].nunique())
 
 # Sección 2: Clústeres Interactivos
 st.header("Visualización de Clústeres")
-
-# Vectorizar el texto para el análisis
+ Vectorizar los resúmenes
 vectorizer = TfidfVectorizer(stop_words="spanish")
-X_tfidf = vectorizer.fit_transform(data["Resumen"])
+X_tfidf = vectorizer.fit_transform(df_pacientes["Resumen"])
 
-# Aplicar t-SNE para la reducción de dimensionalidad
-tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=300)
+# Aplicar t-SNE
+tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=500)
 tsne_results = tsne.fit_transform(X_tfidf.toarray())
 
-# Agregar ruido controlado para separar los clústeres visualmente
+# Crear DataFrame con resultados
 tsne_df = pd.DataFrame(tsne_results, columns=["Dimensión 1", "Dimensión 2"])
-tsne_df["Cluster"] = data["Cluster"]
+tsne_df["Cluster"] = df_pacientes["Cluster"]
 
-# Añadir un desplazamiento artificial para separar los clústeres
+# Desplazamientos más significativos para cada clúster
 cluster_offsets = {
-    "Problemas de ansiedad y estrés": (0, 0),
-    "Conflictos familiares": (20, 10),
-    "Problemas laborales y profesionales": (-20, -10),
-    "Autolesión y emociones negativas": (10, -20),
-    "Avances y estados emocionales positivos": (-10, 20),
+    "Problemas de ansiedad y estrés": (100, 100),
+    "Conflictos familiares": (-100, -100),
+    "Problemas laborales y profesionales": (200, -100),
+    "Autolesión y emociones negativas": (-200, 200),
+    "Avances y estados emocionales positivos": (0, -200),
 }
 tsne_df["Dimensión 1"] += tsne_df["Cluster"].map(lambda c: cluster_offsets[c][0])
 tsne_df["Dimensión 2"] += tsne_df["Cluster"].map(lambda c: cluster_offsets[c][1])
 
-# Gráfico interactivo con plotly
-st.title("Clústeres Temáticos de Pacientes")
+# Visualización
 fig = px.scatter(
     tsne_df, x="Dimensión 1", y="Dimensión 2", color="Cluster",
-    hover_data={"Dimensión 1": False, "Dimensión 2": False, "Cluster": True},
-    title="Clústeres de Pacientes por Temas"
+    title="Clústeres de Pacientes Basados en Temas",
+    hover_data={"Dimensión 1": False, "Dimensión 2": False, "Cluster": True}
 )
-st.plotly_chart(fig, use_container_width=True)
-
-# Mostrar datos en tabla
-st.header("Datos Agrupados por Clúster")
-st.dataframe(data[["Nombre del Paciente", "Número de Sesión", "Resumen", "Cluster"]].head(20))
+fig.update_layout(
+    width=800, height=600,
+    xaxis_title="Dimensión 1", yaxis_title="Dimensión 2",
+    title_font_size=18
+)
+fig.show()
 # Sección 3: Progresión de Estados por Paciente
 st.header("Progresión de Estados por Paciente")
 
