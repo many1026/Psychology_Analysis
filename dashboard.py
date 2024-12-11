@@ -35,33 +35,48 @@ col2.metric("Pacientes Únicos", data['Nombre del Paciente'].nunique())
 col3.metric("Estados Únicos", data['Estado'].nunique())
 
 # Sección 2: Clústeres Interactivos
-st.header("Visualización de Clústeres")
+# Sección 3: Visualización de Clústeres Temáticos
+st.header("Visualización de Clústeres Temáticos")
+
+# Descargar stopwords de NLTK si es necesario
+nltk.download('stopwords')
+spanish_stopwords = stopwords.words('spanish')
 
 # Vectorizar el texto de los resúmenes
-vectorizer = TfidfVectorizer(stop_words="english")
-X_tfidf = vectorizer.fit_transform(data['Resumen'])
+vectorizer = TfidfVectorizer(stop_words=spanish_stopwords)
+X_tfidf = vectorizer.fit_transform(data["Resumen"])
 
-# Aplicar KMeans para crear clústeres
-kmeans = KMeans(n_clusters=5, random_state=42)
-data['Cluster'] = kmeans.fit_predict(X_tfidf)
-
-# Visualización con t-SNE
-st.subheader("Clústeres con t-SNE")
-tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=300)
+# Aplicar t-SNE para la reducción de dimensionalidad
+tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=500)
 tsne_results = tsne.fit_transform(X_tfidf.toarray())
 
-tsne_df = pd.DataFrame({
-    'Dimensión 1': tsne_results[:, 0],
-    'Dimensión 2': tsne_results[:, 1],
-    'Cluster': data['Cluster'],
-    'Paciente': data['Nombre del Paciente']
-})
+# Crear un DataFrame para los resultados de t-SNE
+tsne_df = pd.DataFrame(tsne_results, columns=["Dimensión 1", "Dimensión 2"])
+tsne_df["Cluster"] = data["Cluster"]
 
-fig = px.scatter(
-    tsne_df, x='Dimensión 1', y='Dimensión 2', color='Cluster', hover_data=['Paciente'],
-    title="Clústeres de Pacientes con t-SNE"
+# Desplazar artificialmente los clústeres para separarlos
+cluster_offsets = {
+    "Problemas de ansiedad y estrés": (10, 10),
+    "Conflictos familiares": (-10, -10),
+    "Problemas laborales y profesionales": (20, -10),
+    "Autolesión y emociones negativas": (-20, 20),
+    "Avances y estados emocionales positivos": (0, -20),
+}
+tsne_df["Dimensión 1"] += tsne_df["Cluster"].map(lambda c: cluster_offsets[c][0])
+tsne_df["Dimensión 2"] += tsne_df["Cluster"].map(lambda c: cluster_offsets[c][1])
+
+# Graficar los clústeres en Streamlit
+st.subheader("Distribución de Clústeres Basados en Temas")
+fig, ax = plt.subplots(figsize=(12, 8))
+sns.scatterplot(
+    data=tsne_df, x="Dimensión 1", y="Dimensión 2", hue="Cluster", palette="Set2", s=100, alpha=0.8, ax=ax
 )
-st.plotly_chart(fig, use_container_width=True)
+ax.set_title("Clústeres de Pacientes Basados en Temas", fontsize=16)
+ax.set_xlabel("Dimensión 1", fontsize=12)
+ax.set_ylabel("Dimensión 2", fontsize=12)
+ax.legend(title="Clústeres Temáticos", bbox_to_anchor=(1.05, 1), loc="upper left")
+st.pyplot(fig)
+
 
 # Sección 3: Progresión de Estados por Paciente
 st.header("Progresión de Estados por Paciente")
