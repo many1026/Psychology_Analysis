@@ -36,7 +36,7 @@ col3.metric("Estados Únicos", data['Estado'].nunique())
 st.subheader("Distribución de Clústeres Basados en Temas")
 
 # Asegúrate de que el archivo sea accesible y esté en el mismo directorio o especifica la ruta completa
-image_path = "Patient Clusters.jpeg"  # Cambiar a .jpeg si ese es el formato
+image_path = "cluster.jpeg"  # Cambiar a .jpeg si ese es el formato
 
 # Mostrar la imagen
 st.image(image_path, caption="Clústeres de Pacientes Basados en Temas", use_container_width=True)
