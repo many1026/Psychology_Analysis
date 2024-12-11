@@ -37,7 +37,7 @@ st.header("Visualización de Clústeres Temáticos")
 
 # Subir y mostrar la imagen de los clústeres
 st.subheader("Distribución de Clústeres Basados en Temas")
-st.image("patient clusters.png", caption="Clústeres de Pacientes Basados en Temas", use_column_width=True)
+st.image("Patient Clusters.png", caption="Clústeres de Pacientes Basados en Temas", use_column_width=True)
 
 
 # Sección 3: Progresión de Estados por Paciente
@@ -69,23 +69,3 @@ plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')
 plt.title("Nube de Palabras de Resúmenes", fontsize=16)
 st.pyplot(plt)
-
-# Sección 5: Distribución de Estados
-st.header("Distribución de Estados")
-estados_counts = data['Estado'].value_counts()
-fig = px.bar(
-    estados_counts.reset_index(), x='index', y='Estado',
-    labels={'index': 'Estado', 'Estado': 'Frecuencia'},
-    title="Distribución de Estados"
-)
-st.plotly_chart(fig, use_container_width=True)
-
-# Sección 6: Insights adicionales
-st.header("Insights Adicionales")
-st.markdown("- **Pacientes en estado crítico/urgente:** {}".format(
-    data[data['Estado'].str.contains("Crítico|Urgente")]['Nombre del Paciente'].nunique()
-))
-st.markdown("- **Pacientes resueltos:** {}".format(
-    data[data['Estado'] == "Resuelto"]['Nombre del Paciente'].nunique()
-))
-
