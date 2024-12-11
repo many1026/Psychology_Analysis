@@ -11,7 +11,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans
 import numpy as np
-import random
 
 # Configuración general
 st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wide")
@@ -23,17 +22,6 @@ def load_data():
     return data
 
 data = load_data()
-
-# Asignar clústeres basados en los temas definidos
-random.seed(42)  # Semilla para resultados reproducibles
-temas = [
-    "Problemas de ansiedad y estrés",
-    "Conflictos familiares",
-    "Problemas laborales y profesionales",
-    "Autolesión y emociones negativas",
-    "Avances y estados emocionales positivos"
-]
-data['Cluster'] = [random.choice(temas) for _ in range(len(data))]
 
 # Título
 st.title("Dashboard de Sesiones Psicológicas")
@@ -53,6 +41,10 @@ st.header("Visualización de Clústeres")
 vectorizer = TfidfVectorizer(stop_words="english")
 X_tfidf = vectorizer.fit_transform(data['Resumen'])
 
+# Aplicar KMeans para crear clústeres
+kmeans = KMeans(n_clusters=5, random_state=42)
+data['Cluster'] = kmeans.fit_predict(X_tfidf)
+
 # Visualización con t-SNE
 st.subheader("Clústeres con t-SNE")
 tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=300)
@@ -67,7 +59,7 @@ tsne_df = pd.DataFrame({
 
 fig = px.scatter(
     tsne_df, x='Dimensión 1', y='Dimensión 2', color='Cluster', hover_data=['Paciente'],
-    title="Clústeres de Pacientes por Temas con t-SNE"
+    title="Clústeres de Pacientes con t-SNE"
 )
 st.plotly_chart(fig, use_container_width=True)
 
