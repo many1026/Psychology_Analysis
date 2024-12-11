@@ -10,9 +10,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans
 import numpy as np
-import nltk
-from nltk.corpus import stopwords
-nltk.download('stopwords')  # Descargar stopwords en la primera ejecución
 
 # Configuración general
 st.set_page_config(page_title="Dashboard de Sesiones Psicológicas", layout="wide")
