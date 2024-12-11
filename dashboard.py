@@ -32,49 +32,12 @@ col1, col2, col3 = st.columns(3)
 col1.metric("Total de Sesiones", len(data))
 col2.metric("Pacientes Únicos", data['Nombre del Paciente'].nunique())
 col3.metric("Estados Únicos", data['Estado'].nunique())
-
-# Sección 2: Clústeres Interactivos
-# Sección 3: Visualización de Clústeres Temáticos
+# Sección 2: Visualización de Clústeres Temáticos
 st.header("Visualización de Clústeres Temáticos")
 
-# Descargar stopwords de NLTK si es necesario
-nltk.download('stopwords')
-spanish_stopwords = stopwords.words('spanish')
-
-# Vectorizar el texto de los resúmenes
-vectorizer = TfidfVectorizer(stop_words=spanish_stopwords)
-X_tfidf = vectorizer.fit_transform(data["Resumen"])
-
-# Aplicar t-SNE para la reducción de dimensionalidad
-tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=500)
-tsne_results = tsne.fit_transform(X_tfidf.toarray())
-
-# Crear un DataFrame para los resultados de t-SNE
-tsne_df = pd.DataFrame(tsne_results, columns=["Dimensión 1", "Dimensión 2"])
-tsne_df["Cluster"] = data["Cluster"]
-
-# Desplazar artificialmente los clústeres para separarlos
-cluster_offsets = {
-    "Problemas de ansiedad y estrés": (10, 10),
-    "Conflictos familiares": (-10, -10),
-    "Problemas laborales y profesionales": (20, -10),
-    "Autolesión y emociones negativas": (-20, 20),
-    "Avances y estados emocionales positivos": (0, -20),
-}
-tsne_df["Dimensión 1"] += tsne_df["Cluster"].map(lambda c: cluster_offsets[c][0])
-tsne_df["Dimensión 2"] += tsne_df["Cluster"].map(lambda c: cluster_offsets[c][1])
-
-# Graficar los clústeres en Streamlit
+# Subir y mostrar la imagen de los clústeres
 st.subheader("Distribución de Clústeres Basados en Temas")
-fig, ax = plt.subplots(figsize=(12, 8))
-sns.scatterplot(
-    data=tsne_df, x="Dimensión 1", y="Dimensión 2", hue="Cluster", palette="Set2", s=100, alpha=0.8, ax=ax
-)
-ax.set_title("Clústeres de Pacientes Basados en Temas", fontsize=16)
-ax.set_xlabel("Dimensión 1", fontsize=12)
-ax.set_ylabel("Dimensión 2", fontsize=12)
-ax.legend(title="Clústeres Temáticos", bbox_to_anchor=(1.05, 1), loc="upper left")
-st.pyplot(fig)
+st.image("patient clusters.png", caption="Clústeres de Pacientes Basados en Temas", use_column_width=True)
 
 
 # Sección 3: Progresión de Estados por Paciente
