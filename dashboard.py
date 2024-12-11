@@ -66,22 +66,31 @@ st.plotly_chart(fig, use_container_width=True)
 # Sección 3: Progresión de Estados por Paciente
 st.header("Progresión de Estados por Paciente")
 
-def graficar_progresion_por_paciente(df):
-    plt.figure(figsize=(12, 6))
-    for paciente in df['Nombre del Paciente'].unique():
-        subset = df[df['Nombre del Paciente'] == paciente]
-        sesiones = subset['Número de Sesión']
-        estados = subset['Estado_Numerico']
-        plt.plot(sesiones, estados, label=paciente, alpha=0.5)
+def graficar_progresion_por_paciente(df, group_size=5):
+    unique_pacientes = df['Nombre del Paciente'].unique()
+    total_pacientes = len(unique_pacientes)
+    num_batches = (total_pacientes + group_size - 1) // group_size  # Número de lotes
 
-    plt.title('Progresión de Estados por Paciente', fontsize=16)
-    plt.xlabel('Número de Sesión', fontsize=14)
-    plt.ylabel('Estado (0=Crítico/Urgente, 1=Seguimiento Intensivo, 2=Requiere Seguimiento, 3=Estable, 4=Resuelto)', fontsize=12)
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=8)
-    plt.grid(True)
-    st.pyplot(plt)
+    for batch in range(num_batches):
+        start_idx = batch * group_size
+        end_idx = min((batch + 1) * group_size, total_pacientes)
+        pacientes_batch = unique_pacientes[start_idx:end_idx]
 
-graficar_progresion_por_paciente(data)
+        plt.figure(figsize=(12, 6))
+        for paciente in pacientes_batch:
+            subset = df[df['Nombre del Paciente'] == paciente]
+            sesiones = subset['Número de Sesión']
+            estados = subset['Estado_Numerico']
+            plt.plot(sesiones, estados, label=paciente, alpha=0.7)
+
+        plt.title(f'Progresión de Estados por Paciente (Grupo {batch + 1})', fontsize=16)
+        plt.xlabel('Número de Sesión', fontsize=14)
+        plt.ylabel('Estado (0=Crítico/Urgente, 1=Seguimiento Intensivo, 2=Requiere Seguimiento, 3=Estable, 4=Resuelto)', fontsize=12)
+        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=8)
+        plt.grid(True)
+        st.pyplot(plt)
+
+graficar_progresion_por_paciente(data, group_size=5)
 
 # Sección 4: Word Cloud
 st.header("Nube de Palabras")
