@@ -36,41 +36,33 @@ col3.metric("Estados Únicos", data['Estado'].nunique())
 
 # Sección 2: Clústeres Interactivos
 st.header("Visualización de Clústeres")
- Vectorizar los resúmenes
-vectorizer = TfidfVectorizer(stop_words="spanish")
-X_tfidf = vectorizer.fit_transform(df_pacientes["Resumen"])
 
-# Aplicar t-SNE
-tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=500)
+# Vectorizar el texto de los resúmenes
+vectorizer = TfidfVectorizer(stop_words="english")
+X_tfidf = vectorizer.fit_transform(data['Resumen'])
+
+# Aplicar KMeans para crear clústeres
+kmeans = KMeans(n_clusters=5, random_state=42)
+data['Cluster'] = kmeans.fit_predict(X_tfidf)
+
+# Visualización con t-SNE
+st.subheader("Clústeres con t-SNE")
+tsne = TSNE(n_components=2, random_state=42, perplexity=30, n_iter=300)
 tsne_results = tsne.fit_transform(X_tfidf.toarray())
 
-# Crear DataFrame con resultados
-tsne_df = pd.DataFrame(tsne_results, columns=["Dimensión 1", "Dimensión 2"])
-tsne_df["Cluster"] = df_pacientes["Cluster"]
+tsne_df = pd.DataFrame({
+    'Dimensión 1': tsne_results[:, 0],
+    'Dimensión 2': tsne_results[:, 1],
+    'Cluster': data['Cluster'],
+    'Paciente': data['Nombre del Paciente']
+})
 
-# Desplazamientos más significativos para cada clúster
-cluster_offsets = {
-    "Problemas de ansiedad y estrés": (100, 100),
-    "Conflictos familiares": (-100, -100),
-    "Problemas laborales y profesionales": (200, -100),
-    "Autolesión y emociones negativas": (-200, 200),
-    "Avances y estados emocionales positivos": (0, -200),
-}
-tsne_df["Dimensión 1"] += tsne_df["Cluster"].map(lambda c: cluster_offsets[c][0])
-tsne_df["Dimensión 2"] += tsne_df["Cluster"].map(lambda c: cluster_offsets[c][1])
-
-# Visualización
 fig = px.scatter(
-    tsne_df, x="Dimensión 1", y="Dimensión 2", color="Cluster",
-    title="Clústeres de Pacientes Basados en Temas",
-    hover_data={"Dimensión 1": False, "Dimensión 2": False, "Cluster": True}
+    tsne_df, x='Dimensión 1', y='Dimensión 2', color='Cluster', hover_data=['Paciente'],
+    title="Clústeres de Pacientes con t-SNE"
 )
-fig.update_layout(
-    width=800, height=600,
-    xaxis_title="Dimensión 1", yaxis_title="Dimensión 2",
-    title_font_size=18
-)
-fig.show()
+st.plotly_chart(fig, use_container_width=True)
+
 # Sección 3: Progresión de Estados por Paciente
 st.header("Progresión de Estados por Paciente")
 
@@ -119,3 +111,4 @@ st.markdown("- **Pacientes en estado crítico/urgente:** {}".format(
 st.markdown("- **Pacientes resueltos:** {}".format(
     data[data['Estado'] == "Resuelto"]['Nombre del Paciente'].nunique()
 ))
+
