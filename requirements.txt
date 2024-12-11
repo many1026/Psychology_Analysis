@@ -1,6 +1,9 @@
 streamlit
 pandas
 matplotlib
+seaborn
 wordcloud
 plotly
 numpy
+networkx
+scikit-learn
